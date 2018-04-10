@@ -1,6 +1,6 @@
 package main.java;
 
-public class SPN {
+public class App {
 
     public static void main(String[] args) {
 
