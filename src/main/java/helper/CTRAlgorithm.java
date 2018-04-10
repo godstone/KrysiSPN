@@ -1,3 +1,5 @@
+package helper;
+
 import java.util.Arrays;
 
 import static utils.AsciiConverter.asciiToBinary;
@@ -5,11 +7,11 @@ import static utils.AsciiConverter.asciiToBinary;
 public class CTRAlgorithm {
 
 
-    public static String encryptCTR(String cleartext) {
-        String chiffre = null;
+    public static String xorStrings(String firstString, String secondString) {
+        //TODO xor method
+        
 
 
-        return chiffre;
     }
 
 
