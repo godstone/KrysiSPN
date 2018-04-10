@@ -18,7 +18,7 @@ public class CTRAlgorithm {
         try {
             if (firstString.length() == secondString.length()) {
                 for(int pos = 0; pos < firstString.length(); pos++) {
-                    if (firstString.charAt(pos) == firstString.charAt(pos)) {
+                    if (firstString.charAt(pos) == secondString.charAt(pos)) {
                         sb.append("0");
                     } else {
                         sb.append("1");
