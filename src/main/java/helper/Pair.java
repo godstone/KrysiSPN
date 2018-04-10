@@ -1,4 +1,4 @@
-package main.java;
+package main.java.helper;
 
 public class Pair {
     private String key;
