@@ -1,5 +1,7 @@
 package helper;
 
+import com.sun.tools.corba.se.idl.constExpr.NotEqual;
+
 import java.util.Arrays;
 
 import static utils.AsciiConverter.asciiToBinary;
@@ -7,10 +9,25 @@ import static utils.AsciiConverter.asciiToBinary;
 public class CTRAlgorithm {
 
 
-    public static String xorStrings(String firstString, String secondString) {
-        //TODO xor method
-        
+    public static String xorStrings(String firstString, String secondString) throws Exception {
+        StringBuilder sb = new StringBuilder();
 
+        try {
+            if (firstString.length() == secondString.length()) {
+                for(int pos = 0; pos < firstString.length(); pos++) {
+                    if (firstString.charAt(pos) == firstString.charAt(pos)) {
+                        sb.append("0");
+                    } else {
+                        sb.append("1");
+                    }
+                }
+
+            }
+        } catch (Exception e) {
+            System.out.println("String-length is not equal.");
+        }
+
+        return sb.toString();
 
     }
 
