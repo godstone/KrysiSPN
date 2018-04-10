@@ -1,5 +1,25 @@
-public class SPN {
+import java.util.ArrayList;
+import java.util.List;
 
+public class SPN {
+    private int r = 4;
+    private int n = 4;
+    private int m = 4;
+
+    private int keyLength = m * n;
+    private List<String> keys;
+    private List<String> inversKeys;
+
+    private SBox sBox;
+    private Bitpermutation bitPermutation;
+
+    public SPN() {
+        sBox = new SBox();
+        bitPermutation = new Bitpermutation();
+
+        generateKeys();
+        generateInverseKeys();
+    }
 
 
     // Agreed Key between the two parties
@@ -11,18 +31,33 @@ public class SPN {
 
     public String encrypt(String cleartext) {
         //TODO
+        return null;
     }
 
     public String decrypt(String chiffretext) {
         //TODO
+        return null;
     }
 
     private void generateKeys() {
-        //TODO
+        keys = new ArrayList<>();
+
+        for (int k = 0; k < (r + 1); k++) {
+            int start = 4 * k;
+            int end = start + keyLength;
+            String key = spnkey.substring(start, end);
+            keys.add(key);
+        }
     }
 
     private void generateInverseKeys() {
-        //TODO
+        inversKeys = new ArrayList<>();
+
+        inversKeys.add(keys.get(r));
+        for(int k = r - 1; k > 0; k--) {
+            inversKeys.add(bitPermutation.permute(keys.get(k)));
+        }
+        inversKeys.add(keys.get(0));
     }
 
     public String getSpnkey() {
