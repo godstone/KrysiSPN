@@ -1,4 +1,4 @@
-package test.java.helper;
+package helper;
 
 public class BoxTest {
 }
