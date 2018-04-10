@@ -1,3 +1,5 @@
+import helper.CTRAlgorithm;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +23,6 @@ public class SPN {
         generateInverseKeys();
     }
 
-
     // Agreed Key between the two parties
     private String spnkey = "00111010100101001101011000111111";
 
@@ -30,8 +31,42 @@ public class SPN {
 
 
     public String encrypt(String cleartext) {
+        // Initialer Weissschritt
+        try {
+            String step1 = CTRAlgorithm.xorStrings(cleartext, keys.get(0));
+
+            // Start with rounds
+            String step2 = doRoundJob(step1, 1);
+            String step3 = doRoundJob(step2, 2);
+            String step4 = doRoundJob(step3, 3);
+
+            // Final round
+            String sBoxFinalString = "";
+            for (int sb = 0; sb < step4.length(); sb += 4) {
+                sBoxFinalString += sBox.getFromOriginal(step4.substring(sb, sb+4));
+            }
+
+            String chiffretext = CTRAlgorithm.xorStrings(sBoxFinalString, keys.get(r-1));
+
+            return chiffretext;
+        } catch (Exception e) {
+            System.out.println("Something went wrong");
+            System.exit(0);
+        }
+
         //TODO
         return null;
+    }
+
+    private String doRoundJob(String tmpString, int key) throws Exception {
+        String sboxString = "";
+        for (int sb = 0; sb < tmpString.length(); sb += 4) {
+            sboxString += sBox.getFromOriginal(tmpString.substring(sb, sb+4));
+        }
+
+        String bitPermString = bitPermutation.permute(sboxString);
+
+        return CTRAlgorithm.xorStrings(bitPermString, keys.get(key));
     }
 
     public String decrypt(String chiffretext) {
