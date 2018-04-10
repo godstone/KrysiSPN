@@ -1,6 +1,4 @@
-package main.java;
-
-import main.java.helper.Box;
+import helper.Box;
 
 public class Bitpermutation extends Box {
 

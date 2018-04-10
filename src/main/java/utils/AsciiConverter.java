@@ -4,7 +4,9 @@ import java.util.Arrays;
 
 public class AsciiConverter {
 
-
+    /*
+    https://stackoverflow.com/questions/19867918/ascii-to-binary-conversion-program-in-java
+     */
     public static String AsciiToBinary(String asciiString){
 
         byte[] bytes = asciiString.getBytes();
@@ -23,6 +25,9 @@ public class AsciiConverter {
     }
 
 
+    /*
+    https://stackoverflow.com/questions/4211705/binary-to-text-in-java
+     */
     public static String BinaryToAscii(String binaryString) {
 
         StringBuilder sb = new StringBuilder();

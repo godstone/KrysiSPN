@@ -1,7 +1,5 @@
-package main.java;
-
-import main.java.helper.Box;
-import main.java.helper.Pair;
+import helper.Box;
+import helper.Pair;
 
 public class SBox extends Box {
     public SBox() {
