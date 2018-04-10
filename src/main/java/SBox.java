@@ -1,12 +1,33 @@
-import helper.Box;
 import helper.Pair;
 
-public class SBox extends Box {
+import java.util.ArrayList;
+import java.util.List;
+
+public class SBox {
+    private List<Pair> pairs = new ArrayList<>();
+
     public SBox() {
         generatePairs();
     }
 
-    @Override
+    public String getFromOriginal(String value) {
+        for (Pair pair: pairs) {
+            if (pair.getKey().equals(value)) {
+                return pair.getValue();
+            }
+        }
+        return "xxxx";
+    }
+
+    public String getFromInvers(String value) {
+        for (Pair pair: pairs) {
+            if (pair.getValue().equals(value)) {
+                return pair.getKey();
+            }
+        }
+        return "xxxx";
+    }
+
     protected void generatePairs() {
         pairs.add(new Pair("0000","1110"));
         pairs.add(new Pair("0001","0100"));

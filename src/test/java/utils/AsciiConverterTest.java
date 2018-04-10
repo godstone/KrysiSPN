@@ -23,7 +23,5 @@ public class AsciiConverterTest {
         Assert.assertEquals("A", BinaryToAscii("01000001"));
         Assert.assertEquals("abc", BinaryToAscii("011000010110001001100011"));
         Assert.assertEquals("ein kleiner test", BinaryToAscii("01100101011010010110111000100000011010110110110001100101011010010110111001100101011100100010000001110100011001010111001101110100"));
-
-
     }
 }
