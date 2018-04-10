@@ -7,7 +7,7 @@ public class AsciiConverter {
     /*
     https://stackoverflow.com/questions/19867918/ascii-to-binary-conversion-program-in-java
      */
-    public static String AsciiToBinary(String asciiString){
+    public static String asciiToBinary(String asciiString){
 
         byte[] bytes = asciiString.getBytes();
         StringBuilder binary = new StringBuilder();
@@ -28,7 +28,7 @@ public class AsciiConverter {
     /*
     https://stackoverflow.com/questions/4211705/binary-to-text-in-java
      */
-    public static String BinaryToAscii(String binaryString) {
+    public static String binaryToAscii(String binaryString) {
 
         StringBuilder sb = new StringBuilder();
 
