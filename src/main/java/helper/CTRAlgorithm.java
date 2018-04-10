@@ -9,6 +9,9 @@ import static utils.AsciiConverter.asciiToBinary;
 public class CTRAlgorithm {
 
 
+    /*
+    XOR Method to compare to Strings
+     */
     public static String xorStrings(String firstString, String secondString) throws Exception {
         StringBuilder sb = new StringBuilder();
 
@@ -24,7 +27,7 @@ public class CTRAlgorithm {
 
             }
         } catch (Exception e) {
-            System.out.println("String-length is not equal.");
+            e.printStackTrace();
         }
 
         return sb.toString();
