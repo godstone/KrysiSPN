@@ -1,4 +1,5 @@
 import helper.CTRAlgorithm;
+import helper.OperationHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +9,8 @@ public class SPN {
     private int n = 4;
     private int m = 4;
 
+    private String spnkey;
+
     private int keyLength = m * n;
     private List<String> keys;
     private List<String> inversKeys;
@@ -15,7 +18,9 @@ public class SPN {
     private SBox sBox;
     private Bitpermutation bitPermutation;
 
-    public SPN() {
+    public SPN(String key) {
+        this.spnkey = key;
+
         sBox = new SBox();
         bitPermutation = new Bitpermutation();
 
@@ -23,17 +28,10 @@ public class SPN {
         generateInverseKeys();
     }
 
-    // Agreed Key between the two parties
-    private String spnkey = "00111010100101001101011000111111";
-
-    // Random Bitstring with length 16
-    private String randomBitstring = "0000010011010010";
-
-
     public String encrypt(String cleartext) {
-        // Initialer Weissschritt
         try {
-            String step1 = CTRAlgorithm.xorStrings(cleartext, keys.get(0));
+            // Initialer Weissschritt
+            String step1 = OperationHelper.xorStrings(cleartext, keys.get(0));
 
             // Start with rounds
             String step2 = doRoundJob(step1, 1);
@@ -41,16 +39,13 @@ public class SPN {
             String step4 = doRoundJob(step3, 3);
 
             // Final round
-            String sBoxFinalString = "";
-            for (int sb = 0; sb < step4.length(); sb += 4) {
-                sBoxFinalString += sBox.getFromOriginal(step4.substring(sb, sb+4));
-            }
+            String sBoxFinalString = sBox.getStringThroughBox(step4);
 
-            String chiffretext = CTRAlgorithm.xorStrings(sBoxFinalString, keys.get(r-1));
+            String chiffretext = OperationHelper.xorStrings(sBoxFinalString, keys.get(r-1));
 
             return chiffretext;
         } catch (Exception e) {
-            System.out.println("Something went wrong");
+            System.out.println("Something went wrong in the SPN encryption");
             System.exit(0);
         }
 
@@ -59,14 +54,10 @@ public class SPN {
     }
 
     private String doRoundJob(String tmpString, int key) throws Exception {
-        String sboxString = "";
-        for (int sb = 0; sb < tmpString.length(); sb += 4) {
-            sboxString += sBox.getFromOriginal(tmpString.substring(sb, sb+4));
-        }
-
+        String sboxString = sBox.getStringThroughBox(tmpString);
         String bitPermString = bitPermutation.permute(sboxString);
 
-        return CTRAlgorithm.xorStrings(bitPermString, keys.get(key));
+        return OperationHelper.xorStrings(bitPermString, keys.get(key));
     }
 
     public String decrypt(String chiffretext) {
@@ -98,9 +89,4 @@ public class SPN {
     public String getSpnkey() {
         return spnkey;
     }
-
-    public String getRandomBitstring() {
-        return randomBitstring;
-    }
-
 }

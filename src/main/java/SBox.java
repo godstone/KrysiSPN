@@ -19,6 +19,19 @@ public class SBox {
         return "xxxx";
     }
 
+    public String getStringThroughBox(String value) {
+        String sBoxString = "";
+        for (int sb = 0; sb < value.length(); sb += 4) {
+            sBoxString += this.getFromOriginal(value.substring(sb, sb+4));
+        }
+
+        return sBoxString;
+    }
+
+    public String getStringThroughInversBox(String value) {
+        return null;
+    }
+
     public String getFromInvers(String value) {
         for (Pair pair: pairs) {
             if (pair.getValue().equals(value)) {
@@ -46,4 +59,6 @@ public class SBox {
         pairs.add(new Pair("1110","0000"));
         pairs.add(new Pair("1111","0111"));
     }
+
+
 }

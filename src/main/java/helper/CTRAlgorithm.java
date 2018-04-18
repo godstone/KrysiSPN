@@ -1,50 +1,49 @@
 package helper;
 
 import com.sun.tools.corba.se.idl.constExpr.NotEqual;
+import sun.tools.tree.DoubleExpression;
 
+import java.math.BigInteger;
 import java.util.Arrays;
 
 import static utils.AsciiConverter.asciiToBinary;
 
 public class CTRAlgorithm {
 
+    public static String encrypt(String value, String randomY, String key, int i) {
+        int l = randomY.length();
+        double modValue = Math.pow(2,l);
 
-    /*
-    XOR Method to compare to Strings
-     */
-    public static String xorStrings(String firstString, String secondString) throws Exception {
-        StringBuilder sb = new StringBuilder();
+        // y + i mod modValue xor key xor value
+        String newVal = addTwoBinaryStrings(randomY, Integer.toString(i));
+        double modRes = Double.parseDouble(newVal) % modValue;
 
         try {
-            if (firstString.length() == secondString.length()) {
-                for(int pos = 0; pos < firstString.length(); pos++) {
-                    if (firstString.charAt(pos) == secondString.charAt(pos)) {
-                        sb.append("0");
-                    } else {
-                        sb.append("1");
-                    }
-                }
+            BigInteger bigInt = new BigInteger(Double.toString(modRes));
+            String encrypted = OperationHelper.xorStrings(OperationHelper.xorStrings(bigInt.toString(2), key), value);
+            return encrypted;
+        } catch (Exception e) {}
 
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return sb.toString();
-
+        return null;
     }
 
+    private static String addTwoBinaryStrings(String firstString, String secondString) {
+        int sum = Integer.parseInt(firstString,2) + Integer.parseInt(secondString,2);
+        return Integer.toString(sum, 2);
+    }
 
-    /*
-    Generate bitstring with length 16, cleartext + 1 + zeros until "mod 16 = 0"
+    /**
+     * Generate bitstring with length 16, cleartext + 1 + zeros until "mod 16 = 0"
+     * @param cleartxt
+     * @return
      */
-    public static String buildBitstring(String ct) {
+    public static String buildBitstring(String cleartxt) {
 
         StringBuilder stringBuilder = new StringBuilder();
 
-        String zeros = calculateZeros(ct);
+        String zeros = calculateZeros(cleartxt);
 
-        stringBuilder.append(asciiToBinary(ct));
+        stringBuilder.append(asciiToBinary(cleartxt));
         stringBuilder.append("1");
         stringBuilder.append(zeros);
 
