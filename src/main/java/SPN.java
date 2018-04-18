@@ -38,10 +38,11 @@ public class SPN {
             String step3 = doRoundJob(step2, 2);
             String step4 = doRoundJob(step3, 3);
 
+
             // Final round
             String sBoxFinalString = sBox.getStringThroughBox(step4);
 
-            String chiffretext = OperationHelper.xorStrings(sBoxFinalString, keys.get(r-1));
+            String chiffretext = OperationHelper.xorStrings(sBoxFinalString, keys.get(r));
 
             return chiffretext;
         } catch (Exception e) {
