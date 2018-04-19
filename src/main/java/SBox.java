@@ -29,7 +29,12 @@ public class SBox {
     }
 
     public String getStringThroughInversBox(String value) {
-        return null;
+        String sBoxString = "";
+        for (int sb = 0; sb < value.length(); sb += 4) {
+            sBoxString += this.getFromInvers(value.substring(sb, sb+4));
+        }
+
+        return sBoxString;
     }
 
     public String getFromInvers(String value) {

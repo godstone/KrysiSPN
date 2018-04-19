@@ -1,4 +1,3 @@
-import helper.CTRAlgorithm;
 import helper.OperationHelper;
 
 import java.util.ArrayList;
@@ -13,7 +12,6 @@ public class SPN {
 
     private int keyLength = m * n;
     private List<String> keys;
-    private List<String> inversKeys;
 
     private SBox sBox;
     private Bitpermutation bitPermutation;
@@ -25,7 +23,6 @@ public class SPN {
         bitPermutation = new Bitpermutation();
 
         generateKeys();
-        generateInverseKeys();
     }
 
     public String encrypt(String cleartext) {
@@ -61,11 +58,6 @@ public class SPN {
         return OperationHelper.xorStrings(bitPermString, keys.get(key));
     }
 
-    public String decrypt(String chiffretext) {
-        //TODO
-        return null;
-    }
-
     private void generateKeys() {
         keys = new ArrayList<>();
 
@@ -75,16 +67,6 @@ public class SPN {
             String key = spnkey.substring(start, end);
             keys.add(key);
         }
-    }
-
-    private void generateInverseKeys() {
-        inversKeys = new ArrayList<>();
-
-        inversKeys.add(keys.get(r));
-        for(int k = r - 1; k > 0; k--) {
-            inversKeys.add(bitPermutation.permute(keys.get(k)));
-        }
-        inversKeys.add(keys.get(0));
     }
 
     public String getSpnkey() {
