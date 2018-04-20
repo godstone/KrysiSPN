@@ -13,6 +13,7 @@ public class App {
             e.printStackTrace();
         }
 
+        binaryCleartext = binaryCleartext.substring(0, binaryCleartext.lastIndexOf('1'));
         String cleartext = AsciiConverter.binaryToAscii(binaryCleartext);
 
         System.out.println("Cleartext: " + cleartext);
