@@ -27,19 +27,28 @@ public class CTRAlgorithm {
         List<String> yElements = this.splitChiffreText(chiffretext, l);
 
         // Calculate every x element and set the string together
-        String yMinusOne = yElements.get(0);
+        // String yMinusOne = yElements.get(0);
+        BigInteger counter = new BigInteger(yElements.get(0), 2);
         for (int y = 1; y < yElements.size(); y++) {
-            String tempVal = addTwoBinaryStrings(yMinusOne, Integer.toString(y-1, 2));
-            Double modRes = Double.parseDouble(tempVal) % modValue;
-            String valAfterMod = Integer.toBinaryString(modRes.intValue());
+            String valAfterMod = fillZeroToBinary(counter.toString(2), 16);
 
             SPN spn = new SPN(key);
             String afterSpn = spn.encrypt(valAfterMod);
             encryptedString += OperationHelper.xorStrings(afterSpn, yElements.get(y));
 
+            counter = counter.add(BigInteger.ONE);
         }
 
         return encryptedString;
+    }
+
+    private String fillZeroToBinary(String binary, int length) {
+        String binaryWithLeadingZeros = binary;
+        for (int i = binary.length(); binaryWithLeadingZeros.length() < length; i++) {
+            binaryWithLeadingZeros = "0" + binaryWithLeadingZeros;
+        }
+
+        return binaryWithLeadingZeros;
     }
 
     /**
@@ -64,7 +73,8 @@ public class CTRAlgorithm {
 
     // todo: move to helper operation
     private static String addTwoBinaryStrings(String firstString, String secondString) {
-        int sum = Integer.parseInt(firstString,2) + Integer.parseInt(secondString,2);
+        String binString = calculateZeros(secondString);
+        int sum = Integer.parseInt(firstString,2) + Integer.parseInt(binString,2);
         return Integer.toString(sum, 2);
     }
 
@@ -94,7 +104,7 @@ public class CTRAlgorithm {
     private static String calculateZeros(String ct) {
 
         String[] zeroList = new String[16 - (ct.length() % 16)];
-        Arrays.fill(zeroList, 0);
+        Arrays.fill(zeroList, "0");
 
         String zeros = String.join("",zeroList);
 
