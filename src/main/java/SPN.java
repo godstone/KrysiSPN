@@ -3,6 +3,9 @@ import helper.OperationHelper;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class represents a SPN and all its functions which are needed for an encryption.
+ */
 public class SPN {
     private int r = 4;
     private int n = 4;
@@ -16,30 +19,40 @@ public class SPN {
     private SBox sBox;
     private Bitpermutation bitPermutation;
 
+    /**
+     * Constructor.
+     *
+     * @param key
+     */
     public SPN(String key) {
         this.spnkey = key;
 
         sBox = new SBox();
         bitPermutation = new Bitpermutation();
 
-        generateKeys();
+        generateRoundKeys();
     }
 
+    /**
+     * Encrypts a given text with the values of this SPN.
+     *
+     * @param cleartext
+     * @return
+     */
     public String encrypt(String cleartext) {
         try {
             // Initialer Weissschritt
-            String step1 = OperationHelper.xorStrings(cleartext, keys.get(0));
+            String step1 = OperationHelper.xor(cleartext, keys.get(0));
 
-            // Start with rounds
-            String step2 = doRoundJob(step1, 1);
-            String step3 = doRoundJob(step2, 2);
-            String step4 = doRoundJob(step3, 3);
+            // Do all rounds between first and last round
+            String nextStep = step1;
+            for (int x = 1; x < r; x ++) {
+                nextStep = doRoundJob(nextStep, x);
+            }
 
-
-            // Final round
-            String sBoxFinalString = sBox.getStringThroughBox(step4);
-
-            String chiffretext = OperationHelper.xorStrings(sBoxFinalString, keys.get(r));
+            // Final round with s-box and last xor
+            String sBoxFinalString = sBox.getStringThroughBox(nextStep);
+            String chiffretext = OperationHelper.xor(sBoxFinalString, keys.get(r));
 
             return chiffretext;
         } catch (Exception e) {
@@ -47,18 +60,28 @@ public class SPN {
             System.exit(0);
         }
 
-        //TODO
         return null;
     }
 
-    private String doRoundJob(String tmpString, int key) throws Exception {
+    /**
+     * Helper method to do the rounds with s-box, bitpermutation and xor.
+     *
+     * @param tmpString
+     * @param key
+     * @return
+     * @throws Exception
+     */
+    private String doRoundJob(String tmpString, int key) {
         String sboxString = sBox.getStringThroughBox(tmpString);
         String bitPermString = bitPermutation.permute(sboxString);
 
-        return OperationHelper.xorStrings(bitPermString, keys.get(key));
+        return OperationHelper.xor(bitPermString, keys.get(key));
     }
 
-    private void generateKeys() {
+    /**
+     * Generate all roundKeys from the main key.
+     */
+    private void generateRoundKeys() {
         keys = new ArrayList<>();
 
         for (int k = 0; k < (r + 1); k++) {
@@ -67,9 +90,5 @@ public class SPN {
             String key = spnkey.substring(start, end);
             keys.add(key);
         }
-    }
-
-    public String getSpnkey() {
-        return spnkey;
     }
 }

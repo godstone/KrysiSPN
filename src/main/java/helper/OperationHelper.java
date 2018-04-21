@@ -1,10 +1,17 @@
 package helper;
 
+/**
+ * This class holds some methods to do operations which are needed several times.
+ */
 public class OperationHelper {
-    /*
-   XOR Method to compare to Strings
-    */
-    public static String xorStrings(String firstString, String secondString) throws Exception {
+    /**
+     * Helper method to do the xor operation for two binary strings.
+     *
+     * @param firstString
+     * @param secondString
+     * @return
+     */
+    public static String xor(String firstString, String secondString) {
         StringBuilder sb = new StringBuilder();
 
         try {

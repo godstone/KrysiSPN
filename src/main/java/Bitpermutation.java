@@ -1,15 +1,23 @@
-import helper.Pair;
-
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * This class represents the bitpermutation which is needed in the SPN.
+ */
 public class Bitpermutation {
-    Map<Integer, Integer> bitmap = new HashMap<Integer, Integer>();
+    // Holding all key-value-pairs for the permutation
+    private Map<Integer, Integer> bitmap = new HashMap<Integer, Integer>();
 
     public Bitpermutation() {
         fillBitmap();
     }
 
+    /**
+     * Do the permutation for a given inputString with the bitmap in this class.
+     *
+     * @param input
+     * @return
+     */
     public String permute(String input) {
         List<Character> newString = prepareList(input.length());
 
@@ -21,14 +29,22 @@ public class Bitpermutation {
         return newString.stream().map(c -> c.toString()).collect(Collectors.joining());
     }
 
+    /**
+     * Prepare a new list where the result of the permutation can be saved.
+     *
+     * @param size
+     * @return
+     */
     private List<Character> prepareList(int size) {
         Character[] chars = new Character[size];
         Arrays.fill(chars, 'x');
-        List<Character> charList = Arrays.asList(chars);
 
-        return charList;
+        return Arrays.asList(chars);
     }
 
+    /**
+     * Fill the bitmap with the defined keys and values from the task.
+     */
     private void fillBitmap() {
         bitmap.put(0,0);
         bitmap.put(1,4);

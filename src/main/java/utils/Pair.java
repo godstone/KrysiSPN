@@ -1,5 +1,8 @@
-package helper;
+package utils;
 
+/**
+ * Class to represent values as a pair for s-box.
+ */
 public class Pair {
     private String key;
     private String value;

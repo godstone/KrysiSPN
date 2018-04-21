@@ -1,8 +1,11 @@
-import helper.Pair;
+import utils.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class represents the SBox which is needed in the spn.
+ */
 public class SBox {
     private List<Pair> pairs = new ArrayList<>();
 
@@ -10,6 +13,12 @@ public class SBox {
         generatePairs();
     }
 
+    /**
+     * Get the accurate value from the sbox of a given inputValue.
+     *
+     * @param value
+     * @return
+     */
     public String getFromOriginal(String value) {
         for (Pair pair: pairs) {
             if (pair.getKey().equals(value)) {
@@ -19,6 +28,12 @@ public class SBox {
         return "xxxx";
     }
 
+    /**
+     * Do the complete handling of the sbox for a given string.
+     *
+     * @param value
+     * @return
+     */
     public String getStringThroughBox(String value) {
         String sBoxString = "";
         for (int sb = 0; sb < value.length(); sb += 4) {
@@ -28,25 +43,10 @@ public class SBox {
         return sBoxString;
     }
 
-    public String getStringThroughInversBox(String value) {
-        String sBoxString = "";
-        for (int sb = 0; sb < value.length(); sb += 4) {
-            sBoxString += this.getFromInvers(value.substring(sb, sb+4));
-        }
-
-        return sBoxString;
-    }
-
-    public String getFromInvers(String value) {
-        for (Pair pair: pairs) {
-            if (pair.getValue().equals(value)) {
-                return pair.getKey();
-            }
-        }
-        return "xxxx";
-    }
-
-    protected void generatePairs() {
+    /**
+     * Generating the List of all pairs for the sbox.
+     */
+    private void generatePairs() {
         pairs.add(new Pair("0000","1110"));
         pairs.add(new Pair("0001","0100"));
         pairs.add(new Pair("0010","1101"));
